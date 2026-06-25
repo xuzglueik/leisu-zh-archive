@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>雷速 · 信息聚合与稳定入口</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: linear-gradient(165deg, #e9d3b2 0%, #f7e9d4 40%, #ffedd5 80%, #fce6c3 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.2rem;
+      line-height: 1.6;
+      color: #2c261f;
+    }
+    .card {
+      max-width: 820px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(2px);
+      border-radius: 48px 48px 32px 32px;
+      box-shadow: 0 20px 40px -12px rgba(120, 80, 40, 0.25), 0 4px 18px rgba(180, 130, 70, 0.08);
+      padding: 2.8rem 2.5rem 2.5rem;
+      transition: box-shadow 0.2s;
+    }
+    @media (max-width: 520px) {
+      .card {
+        padding: 2rem 1.4rem 1.8rem;
+        border-radius: 36px 36px 24px 24px;
+      }
+    }
+    .hero {
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(200, 165, 120, 0.3);
+      padding-bottom: 1.2rem;
+    }
+    .hero h1 {
+      font-size: 2.4rem;
+      font-weight: 580;
+      letter-spacing: -0.02em;
+      color: #2f2419;
+      display: flex;
+      align-items: baseline;
+      gap: 0.2rem;
+      flex-wrap: wrap;
+    }
+    .hero h1 span {
+      display: inline-block;
+      background: linear-gradient(145deg, #d3945a, #b87333);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 650;
+    }
+    .hero .sub {
+      margin-top: 0.3rem;
+      font-size: 0.95rem;
+      color: #705a42;
+      letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .hero .sub i {
+      font-style: normal;
+      background: #d9b382;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .section-block {
+      margin: 1.8rem 0 2.2rem;
+    }
+    .section-block p {
+      margin: 1rem 0;
+      font-size: 1.04rem;
+      text-align: justify;
+    }
+    .section-block p:first-child {
+      margin-top: 0;
+    }
+    .tag-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem 0.8rem;
+      margin: 1.4rem 0 0.4rem;
+    }
+    .tag {
+      background: #ecdcc9;
+      padding: 0.2rem 1rem;
+      border-radius: 60px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #483a2a;
+      letter-spacing: 0.2px;
+    }
+    .tag-alt {
+      background: #dac09e;
+      color: #2c1f14;
+    }
+    .feature-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.6rem 2rem;
+      margin: 1.6rem 0 1.2rem;
+      padding: 0.6rem 0;
+    }
+    .feature-item {
+      flex: 1 1 180px;
+      background: #f7efe4;
+      border-radius: 28px;
+      padding: 0.9rem 1.2rem;
+      box-shadow: inset 0 1px 4px rgba(255, 245, 230, 0.8), 0 4px 8px rgba(130, 90, 50, 0.06);
+    }
+    .feature-item .num {
+      font-size: 1.6rem;
+      font-weight: 480;
+      line-height: 1;
+      color: #a47142;
+    }
+    .feature-item .desc {
+      font-size: 0.9rem;
+      color: #4d3b28;
+      margin-top: 0.2rem;
+    }
+    .faq-mini {
+      margin: 2rem 0 1.6rem;
+      padding-top: 1.4rem;
+      border-top: 1px dashed #d6bc9b;
+    }
+    .faq-mini h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #4b3724;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.3px;
+    }
+    .faq-mini details {
+      margin: 0.6rem 0;
+      font-size: 0.95rem;
+      color: #2d251d;
+    }
+    .faq-mini summary {
+      cursor: pointer;
+      font-weight: 500;
+      padding: 0.25rem 0;
+      color: #624d34;
+      transition: color 0.1s;
+    }
+    .faq-mini summary:hover {
+      color: #3f2d1c;
+    }
+    .faq-mini details p {
+      margin: 0.5rem 0 0.2rem 1rem;
+      padding-left: 0.6rem;
+      border-left: 2px solid #dbb68a;
+      opacity: 0.9;
+    }
+    .link-sentence {
+      background: #f2e3d1;
+      border-radius: 60px;
+      padding: 0.9rem 1.8rem;
+      display: inline-block;
+      margin: 1.2rem 0 0.4rem;
+      font-weight: 480;
+      box-shadow: 0 2px 6px rgba(110, 75, 30, 0.06);
+    }
+    .link-sentence a {
+      color: #7e592e;
+      text-decoration: none;
+      font-weight: 590;
+      border-bottom: 2px solid #b68855;
+      padding-bottom: 2px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .link-sentence a:hover {
+      border-bottom-color: #5a3e22;
+      color: #3f2c19;
+    }
+    .footnote {
+      margin-top: 2.2rem;
+      font-size: 0.88rem;
+      color: #6c573e;
+      background: #f1e2cf;
+      padding: 0.8rem 1.4rem;
+      border-radius: 40px;
+      text-align: center;
+      opacity: 0.95;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #e3cdb3;
+      margin: 0.8rem 0;
+    }
+  </style>
+</head>
+<body>
+<div class="card">
+
+  <div class="hero">
+    <h1><span>雷速</span> · 稳定信息层</h1>
+    <div class="sub"><span>定位 / 聚合 · 索引 · 直达</span> <i></i> <span>内容生态入口</span></div>
+  </div>
+
+  <div class="section-block">
+    <p>
+      在信息高频迭代的环境下，一个可靠的访问基点尤为重要。<strong>雷速</strong> 作为领域内长期维护的汇聚节点，围绕体育、资讯、赛事动态与数据索引，提供持续更新的导航功能。它不是单一页面，而是一套经过梳理的路径集合，减少跳转损耗，提升信息获取效率。
+    </p>
+    <p>
+      从页面结构到资源归类，<a href="https://leisu-zh-sport.com" style="text-decoration: none; color: #7e592e; font-weight: 590; border-bottom: 1px solid #b68855;">雷速</a> 采用分层设计：热点摘要、分类入口、深度文章与外部参考区彼此独立且互通。用户可根据自身需求快速定位板块，无需冗余浏览。平台同时聚合了多源数据快讯与实时比分面板，覆盖主流联赛与杯赛，满足高频访问者的信息密度要求。
+    </p>
+  </div>
+
+  <div class="feature-grid">
+    <div class="feature-item">
+      <div class="num">03</div>
+      <div class="desc">核心板块 · 赛事、数据、文章</div>
+    </div>
+    <div class="feature-item">
+      <div class="num">+</div>
+      <div class="desc">多源快讯 · 实时比分聚合</div>
+    </div>
+    <div class="feature-item">
+      <div class="num">→</div>
+      <div class="desc">稳定入口 · 持续维护</div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <p>
+      除了基础导航，<strong>雷速</strong> 也整合了索引型内容：联赛赛程、转会更新、数据对比、历史档案专题等，均由编辑团队筛选提炼。页面内不嵌入噪音广告，重点突出信息本身。对于日常关注体育动态的用户而言，这里提供了一个兼具广度与过滤功能的起点。
+    </p>
+    <p>
+      此外，站内设有轻量级 FAQ 与指南区域，帮助新用户快速了解版块划分与使用语境。无论是 PC 端还是移动设备，卡片式布局与优化后的字体层级均能保证一致的阅读节奏。
+    </p>
+  </div>
+
+  <div class="tag-group">
+    <span class="tag">足球</span>
+    <span class="tag">篮球</span>
+    <span class="tag tag-alt">数据索引</span>
+    <span class="tag">实时比分</span>
+    <span class="tag tag-alt">赛事专题</span>
+    <span class="tag">转会信息</span>
+  </div>
+
+  <div class="faq-mini">
+    <h3>常见问题摘要</h3>
+    <details>
+      <summary>雷速 主要提供哪些类型的信息？</summary>
+      <p>赛事数据、实时比分、联赛档案、资讯聚合与专题索引，覆盖多元体育项目。</p>
+    </details>
+    <details>
+      <summary>页面资源是否定期更新？</summary>
+      <p>是。核心板块保持每日刷新，快讯与比分部分采用动态拉取，专题内容按赛季或事件周期维护。</p>
+    </details>
+    <details>
+      <summary>移动端浏览体验如何？</summary>
+      <p>采用自适应布局与可读性字号，卡片间距与触控区域均针对小屏优化，无需横向缩放。</p>
+    </details>
+  </div>
+
+  <hr>
+
+  <div class="link-sentence">
+    <span>如需要稳定的体育信息起点，可尝试使用 </span><a href="https://leisu-zh-sport.com">雷速</a><span> 作为日常索引工具。</span>
+  </div>
+
+  <div class="footnote">
+    <span>基于内容聚合与导航设计 · 保持简洁与易用</span>
+  </div>
+
+</div>
+</body>
+</html>
